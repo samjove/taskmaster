@@ -1,24 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import TaskList from './components/TaskList';
+import TaskForm from './components/TaskForm';
+import Login from './components/Login';
+import Register from './components/Register';
+
 
 function App() {
+  const [taskUpdated, setTaskUpdated] = useState(false);
+  
+  const token = localStorage.getItem('token');
+  //console.log(token);
+  if (!token) {
+    return (<Login />);
+  }
+
+  const refreshTasks = () => {
+    setTaskUpdated(!taskUpdated);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+        <Routes>
+            <Route path="register" element={<Register/>} />
+            <Route path="login" element={<Login/>} />
+            <Route path="tasks" element={(
+              <>
+                <TaskList taskUpdated={taskUpdated}/>
+                <TaskForm onTaskAdded={refreshTasks}/>
+              </>
+            )} />
+        </Routes>
+    </Router>
   );
 }
 
