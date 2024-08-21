@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = '__all__'
+        fields = ['id', 'title', 'description', 'due_date', 'completed']
         
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)

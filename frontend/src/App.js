@@ -1,6 +1,6 @@
 import './App.css';
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
 import Login from './components/Login';
@@ -9,31 +9,51 @@ import Register from './components/Register';
 
 function App() {
   const [taskUpdated, setTaskUpdated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
   
-  const token = localStorage.getItem('token');
-  //console.log(token);
-  if (!token) {
-    return (<Login />);
-  }
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(token) {
+      setIsAuthenticated(true);
+      // navigate('/tasks');
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, [navigate]);
 
   const refreshTasks = () => {
     setTaskUpdated(!taskUpdated);
-  }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
 
   return (
-    <Router>
-        <Routes>
-            <Route path="register" element={<Register/>} />
-            <Route path="login" element={<Login/>} />
-            <Route path="tasks" element={(
-              <>
-                <TaskList taskUpdated={taskUpdated}/>
-                <TaskForm onTaskAdded={refreshTasks}/>
-              </>
-            )} />
-        </Routes>
-    </Router>
-  );
+    <div>
+      {isAuthenticated && (
+        <button onClick={handleLogout}>Logout</button>
+      )}
+      
+      <Routes>
+        <Route path="/tasks" element={isAuthenticated? (
+          <>
+            <TaskList taskUpdated={taskUpdated}/>
+            <TaskForm onTaskAdded={refreshTasks}/>
+          </>
+        ): (
+          <Navigate to="/login" /> 
+        )
+        } />
+        <Route path="/register" element={isAuthenticated? (<Navigate to="/tasks"/>):(<Register/>) } />
+        <Route path="/login" element={isAuthenticated? (<Navigate to="/tasks"/>):(<Login/>) } />
+        <Route path="*" element={isAuthenticated? (<Navigate to="/tasks"/>):(<Navigate to="/login"/>) }/>
+      </Routes>
+    </div>
+  )
 }
 
 export default App;

@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 const Register = () => {
-    const [username, setUsername] = useState('');
+    const [credentials, setCredentials] = useState({ username: '', password: ''});
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const userData = { username, email, password };
-            const response = await api.post('register', userData);
+            const {username, password } = credentials;
+            const userData = {username, email, password};
+            const response = await api.post('/register', userData);
             console.log("Registration successful", response)
             alert('User registered successfully');
+            const response_jwt = await api.post('api/token/', credentials);
+            const accessToken = response_jwt.data.access;
+            const refreshToken = response_jwt.data.refresh;  
+            localStorage.setItem('token', accessToken);
+            localStorage.setItem('refreshToken', refreshToken); 
+            navigate('/tasks');  
         } catch (error) {
             console.error('Registration failed', error);
             alert('Registration failed');
@@ -20,12 +28,16 @@ const Register = () => {
     };
 
     return (
+        <>
+        <p>
+            Already have an account? Login <a href="/login">here</a>.
+        </p>
         <form onSubmit={handleSubmit}>
             <input
                 type='text'
                 placeholder='Username'
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={credentials.username}
+                onChange={(e) => setCredentials({...credentials, username: e.target.value})}
             />
             <input
                 type='text'
@@ -36,11 +48,12 @@ const Register = () => {
             <input
                 type='text'
                 placeholder='Password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={credentials.password}
+                onChange={(e) => setCredentials({...credentials, password: e.target.value})}
             />
             <button type='submit'>Register</button>
         </form>
+        </>
     );
 };
 

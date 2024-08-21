@@ -8,13 +8,16 @@ const TaskForm = ({ onTaskAdded }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const newTask = { title, description, completed: false };
-            await api.post('tasks', newTask);
+            const newTask = { title, description };
+            console.log(newTask);
+            await api.post('/tasks/', newTask).then((res) => {
+                console.log(res);
+            });
             setTitle('');
             setDescription('');
             onTaskAdded();
         } catch (error) {
-            console.error('Error creating tasks', error);
+            console.error('Error creating tasks', error.response.data);
         }
     };
 

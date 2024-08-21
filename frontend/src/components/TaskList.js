@@ -7,7 +7,7 @@ const TaskList = () => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await api.get('tasks/');
+                const response = await api.get('/tasks/');
                 // console.log(response.data);
                 setTasks(response.data);
             } catch (error) {
