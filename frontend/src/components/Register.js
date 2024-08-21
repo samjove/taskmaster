@@ -32,26 +32,31 @@ const Register = () => {
         <p>
             Already have an account? Login <a href="/login">here</a>.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form className='mt-4' onSubmit={handleSubmit}>
+            <div className='form-group'>
             <input
                 type='text'
+                className='form-control'
                 placeholder='Username'
                 value={credentials.username}
                 onChange={(e) => setCredentials({...credentials, username: e.target.value})}
             />
             <input
                 type='text'
+                className='form-control'
                 placeholder='Email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <input
                 type='text'
+                className='form-control'
                 placeholder='Password'
                 value={credentials.password}
                 onChange={(e) => setCredentials({...credentials, password: e.target.value})}
             />
-            <button type='submit'>Register</button>
+            </div>
+            <button className='btn btn-primary mt-3' type='submit'>Register</button>
         </form>
         </>
     );

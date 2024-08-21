@@ -31,20 +31,24 @@ const Login = () => {
         <p>
             Don't have an account? Sign up <a href="/register">here</a>.
         </p>
-        <form onSubmit={handleSubmit}>
+        <form className='mt-4' onSubmit={handleSubmit}>
+            <div className='form-group'>
             <input
                 type='text'
+                className='form-control'
                 placeholder='Username'
                 value={credentials.username}
                 onChange={(e) => setCredentials({...credentials, username: e.target.value})}
             />
             <input
                 type='password'
+                className='form-control'
                 placeholder='Password'
                 value={credentials.password}
                 onChange={(e) => setCredentials({...credentials, password: e.target.value})}
             />
-            <button type='submit'>Login</button>
+            </div>
+            <button className='btn btn-primary mt-3' type='submit'>Login</button>
         </form>
         </>
     );

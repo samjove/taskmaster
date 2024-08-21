@@ -1,14 +1,13 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import { Route, Routes, useNavigate, Navigate } from 'react-router-dom';
-import TaskList from './components/TaskList';
-import TaskForm from './components/TaskForm';
+import TaskPage from './components/TaskPage';
 import Login from './components/Login';
 import Register from './components/Register';
 
 
 function App() {
-  const [taskUpdated, setTaskUpdated] = useState(false);
+  //const [taskUpdated, setTaskUpdated] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   
@@ -22,9 +21,9 @@ function App() {
     }
   }, [navigate]);
 
-  const refreshTasks = () => {
-    setTaskUpdated(!taskUpdated);
-  };
+  // const refreshTasks = () => {
+  //   setTaskUpdated(!taskUpdated);
+  // };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -35,14 +34,15 @@ function App() {
   return (
     <div>
       {isAuthenticated && (
-        <button onClick={handleLogout}>Logout</button>
+        <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
       )}
       
       <Routes>
         <Route path="/tasks" element={isAuthenticated? (
           <>
-            <TaskList taskUpdated={taskUpdated}/>
-            <TaskForm onTaskAdded={refreshTasks}/>
+            {/* <TaskList taskUpdated={taskUpdated}/>
+            <TaskForm onTaskAdded={refreshTasks}/> */}
+            <TaskPage/>
           </>
         ): (
           <Navigate to="/login" /> 

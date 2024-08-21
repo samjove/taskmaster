@@ -10,11 +10,11 @@ const TaskForm = ({ onTaskAdded }) => {
         try {
             const newTask = { title, description };
             console.log(newTask);
-            await api.post('/tasks/', newTask).then((res) => {
-                console.log(res);
-            });
+            await api.post('/tasks/', newTask);
+            
             setTitle('');
             setDescription('');
+            
             onTaskAdded();
         } catch (error) {
             console.error('Error creating tasks', error.response.data);
@@ -22,20 +22,24 @@ const TaskForm = ({ onTaskAdded }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form className="mt-4" onSubmit={handleSubmit}>
+            <div className='form-group'>
             <input
                 type='text'
+                className='form-control'
                 placeholder='Task Title'
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
             <input
                 type='text'
+                className='form-control'
                 placeholder='Task Description'
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
             />
-            <button type='submit'>Add Task</button>
+            </div>
+            <button className="btn btn-primary mt-3" type='submit'>Add Task</button>
         </form>    
     );
 };

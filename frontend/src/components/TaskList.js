@@ -18,15 +18,18 @@ const TaskList = () => {
     }, []);
 
     return (
-        <div>
-            <h1>Task List</h1>
-            <ul>
+        <div className="container">
+            <h2 className="text-center mt-4">Your Tasks</h2>
+            <div className="row">
                 {tasks.map((task) => (
-                    <li key={task.id}>
-                        {task.title} - {task.completed ? 'Completed':'Pending'}
-                    </li>
+                    <div className="col-md-6" key={task.id}>
+                        <div className="task-item">
+                            <h5>{task.title}</h5>
+                            <p>{task.description}</p>
+                        </div>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
