@@ -39,7 +39,7 @@ const TaskForm = ({ onTaskAdded }) => {
                 onChange={(e) => setDescription(e.target.value)}
             />
             </div>
-            <button className="btn btn-primary mt-3" type='submit'>Add Task</button>
+            <button className="btn btn-success mt-3" type='submit'>Add Task</button>
         </form>    
     );
 };

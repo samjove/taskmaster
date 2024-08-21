@@ -1,21 +1,15 @@
-import React, {useEffect, useState } from 'react';
+//import React, {useEffect, useState } from 'react';
 import api from '../api';
 
-const TaskList = () => {
-    const [tasks, setTasks] = useState([]);
-
-    useEffect(() => {
-        const fetchTasks = async () => {
-            try {
-                const response = await api.get('/tasks/');
-                // console.log(response.data);
-                setTasks(response.data);
-            } catch (error) {
-                console.error('Error fetching tasks:', error);
-            }
-        };
-        fetchTasks();
-    }, []);
+const TaskList = ({tasks, onTaskDeleted}) => {
+    const handleDelete = async (taskId) => {
+        try {
+            await api.delete(`/tasks/${taskId}/`);
+            onTaskDeleted();
+        } catch (error) {
+            console.error('Error deleting tasks', error.response.data);
+        }
+    };
 
     return (
         <div className="container">
@@ -27,6 +21,7 @@ const TaskList = () => {
                             <h5>{task.title}</h5>
                             <p>{task.description}</p>
                         </div>
+                        <button className='btn btn-warning'type='button' onClick={() => handleDelete(task.id)}>Delete</button>
                     </div>
                 ))}
             </div>

@@ -19,14 +19,14 @@ const TaskPage = () => {
         fetchTasks();
     }, []);
 
-    const handleTaskAdded = () => {
+    const handleTaskUpdated = () => {
         fetchTasks();
     }
 
     return (
         <div className='container mt-4'>
-            <TaskForm onTaskAdded={handleTaskAdded}/>
-            <TaskList tasks={tasks}/>
+            <TaskForm onTaskAdded={handleTaskUpdated}/>
+            <TaskList tasks={tasks} onTaskDeleted={handleTaskUpdated}/>
         </div>
     );
 };
